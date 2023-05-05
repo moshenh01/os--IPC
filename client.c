@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         // Use poll to wait for input
-        int pull_count = poll(fds, 2, 2500);
+        int pull_count = poll(fds, 2,-1);
         printf("poll_count: %d\n", pull_count);
         // Check for input on the socket file descriptor
         if (fds[0].revents & POLLIN) {
@@ -59,20 +59,7 @@ int main(int argc, char *argv[]) {
             }
             printf("C Recv: %s", buffer);
         }
-           // Check if the socket is ready for writing
-        if (fds[0].revents & POLLOUT) {
-            printf("fds[0].revents & POLLOUT\n");
-            memset(buffer, 0, BUFFER_SIZE);
-            n = read(STDIN_FILENO, buffer, BUFFER_SIZE);
-            printf("0stdin: %s", buffer);
-            if (n > 0) {
-                write(sockfd, buffer, strlen(buffer));
-            }
-             if (n == 0) {
-                printf("The server closed the connection.\n");
-                break;
-            }
-        }
+       
 
        // Check for input on the stdin file descriptor
         if (fds[1].revents & POLLIN) {
