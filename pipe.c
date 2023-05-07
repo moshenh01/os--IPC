@@ -65,7 +65,7 @@ void pipe_sender(){
     sleep(1);
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    sprintf(time_str, "%.5f", tv.tv_sec + (double)tv.tv_usec / 1000000);
+
     int bytes_sent = write(fd, data, DATA_SIZE);
     if (bytes_sent < 0) {
         perror("write");
@@ -73,7 +73,8 @@ void pipe_sender(){
     }
     printf("Data sent: %d\n", bytes_sent);
     
-    
+    // Calculate the elapsed time
+    sprintf(time_str, "%ld", tv.tv_sec * 1000 + tv.tv_usec / 1000);
     close(fd);
     printf("FIFO closed.\n");
     unlink(FIFO_FILE);
@@ -176,6 +177,7 @@ int main(int argc, char *argv[]) {
         }
         if(send_pref == 1 && pull_count == 0){
             strcpy(buffer, "done_send");
+            strcat(buffer, time_str);
             n = write(sockfd, buffer, strlen(buffer));
             //printf("n: %d\n", n);
             if(n < 0){
@@ -183,11 +185,14 @@ int main(int argc, char *argv[]) {
                 break;
             }
             n =recv(sockfd, buffer, BUFFER_SIZE, 0);
-            //printf("server time: %s\nclien time: %s\n", buffer, time_str);
-            double time_in_sec_float = atof(time_str);
-            double server_time_float = atof(buffer);
-            double diff = server_time_float - time_in_sec_float;
-            printf("diff: %.5f\n", diff);
+           
+            long long int time_in_ms = atof(time_str);
+            long long int server_time_ms = atof(buffer);
+            printf("time client: %lld\n", time_in_ms);
+            printf("time server: %lld\n", server_time_ms);
+            long long int diff = (server_time_ms - time_in_ms);
+            
+            printf("diff: %lld\n", diff);
             break;
             send_pref = 0;
         }

@@ -2,6 +2,16 @@
     "files.associations": {
         "*.c": "c",
         "*.cpp": "cpp",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "array": "c",
+        "chrono": "c",
+        "compare": "c",
+        "executor": "c",
+        "internet": "c",
+        "functional": "c",
+        "ratio": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }

@@ -22,12 +22,14 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 
-#define SOCKET_PATH "/home/moshe/mysocket"
+#define SOCKET_PATH "/tmp/mysocket"
 
 #define BUF_UDS 1024*1024*100
 #define FILE_MODE 0644
+ #define TIMEOUT_SEC 5
 extern char *input_file;
 extern char *output_file;
 

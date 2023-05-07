@@ -18,8 +18,7 @@
 
 #define BUFFER_SIZE 1024
 #define DATA_SIZE 104857600 // 100MB
-#define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 8081
+
 char time_str[20];
 char *output_file = NULL;
 
@@ -68,19 +67,10 @@ void mmap_sender()
     // printf("MD5 checksum: %s  \n", md5_checksum);
     calculate_md5_checksum(data, DATA_SIZE, md5_checksum);
     md5_checksum[MD5_DIGEST_LENGTH] = '\0';
-    printf("MD5 checksum: %s \n", md5_checksum );
-
-    // cpoy md5_checksum to the end of data
-    //memcpy(data + DATA_SIZE, md5_checksum, MD5_DIGEST_LENGTH);
-   
-    // for (int i = DATA_SIZE - 5; i < DATA_SIZE ; i++)
-    // {
-    //     printf(":%c", data[i]);
-    // }
-    printf("\n");
+    //printf("MD5 checksum: %s \n", md5_checksum );
 
     // Open the output file
-    int output_fd = open("a.txt", O_RDWR | O_CREAT | O_TRUNC, FILE_MODE);
+    int output_fd = open(output_file, O_RDWR | O_CREAT | O_TRUNC, FILE_MODE);
     if (output_fd < 0)
     {
         perror("open output file");
@@ -115,12 +105,13 @@ void mmap_sender()
     // while(*ptr != '\0'){
     memcpy(output_data, md5_checksum, MD5_DIGEST_LENGTH); 
     printf("send checksum\n");
-    sleep(2);
+    sleep(1);
     memset(output_data, 0, MD5_DIGEST_LENGTH);
 
     struct timeval tv;
     gettimeofday(&tv, NULL);
-     sprintf(time_str, "%.5f", tv.tv_sec + (double)tv.tv_usec / 1000000);
+  
+
     if (memcpy(output_data, data, DATA_SIZE ) == NULL)
     {
         printf("memcpy error\n");
@@ -144,7 +135,8 @@ void mmap_sender()
         munmap(output_data, DATA_SIZE );
         exit(1);
     }
-
+    // Calculate the elapsed time
+    sprintf(time_str, "%ld", tv.tv_sec * 1000 + tv.tv_usec / 1000);
     munmap(output_data, DATA_SIZE );
     close(output_fd);
     free(data);
@@ -239,7 +231,7 @@ int main(int argc, char *argv[])
                 break;
             }
 
-            sleep(2); // time for the servre
+            sleep(1); // time for the servre
             printf("mmap_sender\n");
             mmap_sender();
             free(output_file);
@@ -250,6 +242,7 @@ int main(int argc, char *argv[])
         if (send_pref == 1 && pull_count == 0)
         {
             strcpy(buffer, "done_send");
+            strcat(buffer, time_str);
             n = write(sockfd, buffer, strlen(buffer));
             // printf("n: %d\n", n);
             if (n < 0)
@@ -259,10 +252,13 @@ int main(int argc, char *argv[])
             }
             n = recv(sockfd, buffer, BUFFER_SIZE, 0);
             // printf("server time: %s\nclien time: %s\n", buffer, time_str);
-            double time_in_sec_float = atof(time_str);
-            double server_time_float = atof(buffer);
-            double diff = server_time_float - time_in_sec_float;
-            printf("diff: %.5f\n", diff);
+            long long int time_in_ms = atof(time_str);
+            long long int server_time_ms = atof(buffer);
+            printf("time client: %lld\n", time_in_ms);
+            printf("time server: %lld\n", server_time_ms);
+            long long int diff = (server_time_ms - time_in_ms);
+            
+            printf("diff: %lld\n", diff);
             break;
             send_pref = 0;
         }

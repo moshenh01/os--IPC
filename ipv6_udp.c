@@ -89,35 +89,36 @@ void ipv6_udp_sender() {
     // Send the data to the server
     int bytes_sent_now = 0;
     int bytes_sent_total = 0;
-    struct timeval start_time;
+    struct timeval tv;
     int chunk_size = 32768;  // Set the chunk size to 1024 bytes
     int num_chunks = DATA_SIZE / chunk_size;
     printf("num_chunks: %d\n", num_chunks);
    
     sleep(1);
-    gettimeofday(&start_time, NULL);
+    gettimeofday(&tv, NULL);
     for (int i = 0; i < num_chunks; i++) {
         int bytes_to_send = chunk_size;
         if (i == num_chunks - 1) {
             bytes_to_send = DATA_SIZE - bytes_sent_total;
         }
-        //sleep(0.002);
+        
         bytes_sent_now = sendto(sockfd, data + bytes_sent_total, bytes_to_send, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
         if (bytes_sent_now < 0) {
             printf("+Error sending data chunk %d.\n", i);
             break;
         }
-        sleep(0.001);
+        
         bytes_sent_total += bytes_sent_now;
     }
-    sleep(2);
+    sleep(1);
     printf("bytes_sent_total: %d\n", bytes_sent_total);
 
     close(sockfd);
     free(data);
 
+
     // Calculate the elapsed time
-    sprintf(time_str, "%.5f", start_time.tv_sec + (double)start_time.tv_usec / 1000000);
+    sprintf(time_str, "%ld", tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 int main(int argc, char *argv[]) {
@@ -200,7 +201,7 @@ int main(int argc, char *argv[]) {
             }
             
 
-            sleep(2);//time for the servre
+            sleep(1);//time for the servre
             printf("ipv6_udp_sender\n");
             ipv6_udp_sender();
            // printf("ipv4_tcp_sender\n");
@@ -209,6 +210,7 @@ int main(int argc, char *argv[]) {
         }
         if(send_pref == 1 && pull_count == 0){
             strcpy(buffer, "done_send");
+            strcat(buffer, time_str);
             n = write(sockfd, buffer, strlen(buffer));
             //printf("n: %d\n", n);
             if(n < 0){
@@ -217,10 +219,13 @@ int main(int argc, char *argv[]) {
             }
             n =recv(sockfd, buffer, BUFFER_SIZE, 0);
             //printf("server time: %s\nclien time:  %s\n", buffer, time_str);
-            double time_in_sec_float = atof(time_str);
-            double server_time_float = atof(buffer);
-            double diff = server_time_float - time_in_sec_float ;
-            printf("diff: %.5f\n", diff);
+            long long int time_in_ms = atof(time_str);
+            long long int server_time_ms = atof(buffer);
+            printf("time client: %lld\n", time_in_ms);
+            printf("time server: %lld\n", server_time_ms);
+            long long int diff = (server_time_ms - time_in_ms);
+            
+            printf("diff: %lld\n", diff);
             break;
             send_pref = 0;
         }

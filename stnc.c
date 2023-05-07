@@ -146,6 +146,9 @@ int main(int argc, char *argv[]) {
             printf("Usage: %s -s PORT\n", argv[0]);
             exit(EXIT_FAILURE);
         }
+        if(argv[3] == NULL)
+            argv[4] = NULL;
+            
         argv[0] = "./server";
         pid_t pid = fork();
         if (pid == -1)
