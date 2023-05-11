@@ -4,13 +4,13 @@ Part A: Chat Tool
 
 In this part we involve the implementation of a chat tool that facilitates communication between two side over a network.
 
-Usage:
+The usage of the Chat Tool feature is as follows:
+
 1. First of all compile the files by " make stnc ".
 2. Open first terminal and run the server side by " ./stnc -s <PORT> ".
 3. Open second terminal and run the cliend side by " ./stnc -c <IP> <Port> ".
 4. Send messages from the terminal by normal typing.
  
-  
   
 Part B: Performance Test
 
