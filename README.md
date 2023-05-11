@@ -1,10 +1,10 @@
 # IPC Chat and Performance Test Tool 
 
-# Part A: Chat Tool
+## Part A: Chat Tool
 
 In this part we involve the implementation of a chat tool that facilitates communication between two side over a network.
 
-The usage of the Chat Tool feature is as follows:
+#### The usage of the Chat Tool feature is as follows:
 
 1. First of all compile the files by " make stnc ".
 2. Open first terminal and run the server side by " ./stnc -s <PORT> ".
@@ -12,7 +12,7 @@ The usage of the Chat Tool feature is as follows:
 4. Send messages from the terminal by normal typing.
  
   
-# Part B: Performance Test
+## Part B: Performance Test
 
 In addition to the chat functionality, the tool is extended to serve as a network performance test utility. The performance test involves transmitting a chunk of data (100MB in size) using various communication styles and measuring the time it takes. The supported communication styles are as follows:
 
@@ -20,7 +20,7 @@ In addition to the chat functionality, the tool is extended to serve as a networ
    2. Mapped file and named pipe (2 variants)
    3. Unix Domain Socket (UDS) using stream and datagram modes (2 variants)
 
-The usage of the performance test feature is as follows:
+#### The usage of the performance test feature is as follows:
   
   1. First of all compile the files by " make stnc ".
   2. Open first terminal and run the server side by " ./stnc -s <PORT> -p -q ".
@@ -28,7 +28,7 @@ The usage of the performance test feature is as follows:
      This mode is essential for automated testing.
   3. Open second terminal and run the cliend side by " ./stnc -c <IP> <Port> -p <type> <param> ".
   
-  (After you run the server you can run the cliend several times to test every communication style).
+  ##### (After you run the server you can run the cliend several times to test every communication style).
   
   
   
