@@ -1,6 +1,6 @@
-#IPC Chat and Performance Test Tool 
+# IPC Chat and Performance Test Tool 
 
-#Part A: Chat Tool
+# Part A: Chat Tool
 
 In this part we involve the implementation of a chat tool that facilitates communication between two side over a network.
 
@@ -12,7 +12,7 @@ The usage of the Chat Tool feature is as follows:
 4. Send messages from the terminal by normal typing.
  
   
-#Part B: Performance Test
+# Part B: Performance Test
 
 In addition to the chat functionality, the tool is extended to serve as a network performance test utility. The performance test involves transmitting a chunk of data (100MB in size) using various communication styles and measuring the time it takes. The supported communication styles are as follows:
 
