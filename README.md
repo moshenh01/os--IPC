@@ -7,8 +7,8 @@ In this part we involve the implementation of a chat tool that facilitates commu
 ### The usage of the Chat Tool feature is as follows:
 
 1. First of all compile the files by " make stnc ".
-2. Open first terminal and run the server side by " ./stnc -s <PORT> ".
-3. Open second terminal and run the cliend side by " ./stnc -c <IP> <Port> ".
+2. Open first terminal and run the server side by " ./stnc -s PORT ".
+3. Open second terminal and run the cliend side by " ./stnc -c IP Port ".
 4. Send messages from the terminal by normal typing.
  
   
@@ -23,10 +23,10 @@ In addition to the chat functionality, the tool is extended to serve as a networ
 ### The usage of the performance test feature is as follows:
   
   1. First of all compile the files by " make stnc ".
-  2. Open first terminal and run the server side by " ./stnc -s <PORT> -p -q ".
+  2. Open first terminal and run the server side by " ./stnc -s PORT -p -q ".(the order is importent)
      The -p flag indicates the performance test, and the -q flag enables the quiet mode where only the testing results are printed.
      This mode is essential for automated testing.
-  3. Open second terminal and run the cliend side by " ./stnc -c <IP> <Port> -p <type> <param> ".
+  3. Open second terminal and run the cliend side by " ./stnc -c IP Port -p type param ".
   
 (After you run the server you can run the cliend several times to test every communication style).
   
