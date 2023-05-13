@@ -32,4 +32,4 @@ In addition to the chat functionality, the tool is extended to serve as a networ
   
   
   
- #### Note: Its important to use the flags in the order we showed you here, else the quite mode and the performance mode will probably fail.
+ #### Note: Its important to use the flags in the order we showed you here, else the quiet mode and the performance mode will probably fail.
